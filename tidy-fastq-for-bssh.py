@@ -8,6 +8,12 @@ parser = argparse.ArgumentParser(
         "Tidy FASTQ files of the same sample "
         "for upload to Illumina BaseSpace Sequence Hub."))
 parser.add_argument("--output-dir", "-o")
+parser.add_argument(
+    "--fix-sample-names", type=bool,
+    help=(
+        "Modify sample names in FASTQ headers to fit BS requirements. Without "
+        "this option, you will have to rely on the --allow-invalid-readnames "
+        "option of bs upload dataset."))
 parser.add_argument("name", help="Sample name for this sample")
 parser.add_argument("fastqs", nargs="+", help="FASTQ files for this sample")
 args = parser.parse_args()
@@ -53,7 +59,7 @@ for fq in fqs:
 
     should_sanitise_sample_number = re.match("^\d+$", fq["sample number"]) is None
 
-    if not should_sanitise_sample_number:
+    if not (should_sanitise_sample_number and args.fix_sample_names):
         print(f"cp {fq['filename']} {new_filename}")
     else:
         # For multi-lane samples, a FASTQ file can sometimes have different
