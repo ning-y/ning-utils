@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(
         "for upload to Illumina BaseSpace Sequence Hub."))
 parser.add_argument("--output-dir", "-o")
 parser.add_argument(
-    "--fix-sample-names", type=bool,
+    "--fix-sample-names", action="store_true",
     help=(
         "Modify sample names in FASTQ headers to fit BS requirements. Without "
         "this option, you will have to rely on the --allow-invalid-readnames "
