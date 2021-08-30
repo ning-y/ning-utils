@@ -56,4 +56,9 @@ for fq in fqs:
     if not should_sanitise_sample_number:
         print(f"cp {fq['filename']} {new_filename}")
     else:
-        print(f"zcat {fq['filename']} | sed -e 's/{fq['sample number']}/1/g' | gzip > {new_filename}")
+        # For multi-lane samples, a FASTQ file can sometimes have different
+        # sample numbers, so we cannot rely on sed using fq['sample_number'].
+        print((
+            f"zcat {fq['filename']} | "
+            """awk '{if (NR % 4 == 1) {gsub(/:[^:]+$/,":1"); print} else {print}}' | """
+            f"gzip > {new_filename}"))
