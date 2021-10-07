@@ -3,7 +3,7 @@
 import argparse, getpass, subprocess
 
 parser = argparse.ArgumentParser(
-    prog="pdfaddpw", description="Password protect PDFs")
+    prog="pdfaddpw", description="Password protects PDFs in-place")
 parser.add_argument("pdfs", nargs="+")
 args = parser.parse_args()
 
