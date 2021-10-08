@@ -8,6 +8,7 @@ parser.add_argument("pdfs", nargs="+")
 args = parser.parse_args()
 
 password = getpass.getpass()
+assert password == getpass.getpass(prompt="Confirm: ")
 
 for pdf in args.pdfs:
     # Without -dNOPAUSE, user must hit <RET> each page.
